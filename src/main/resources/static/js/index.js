@@ -12,9 +12,10 @@ let options = {
   maximumAge: 0
 };
 
-function success(pos) {
+//added argument to get app to run
+function success(position) {
   loadingStatus.innerHTML = `Success!`;
-  let crd = pos.coords;
+  let crd = position.coords;
   latitudeDisplay.innerHTML = `<b>Latitude:</b> ${crd.latitude}`;
   longitudeDisplay.innerHTML = `<b>Longitude:</b> ${crd.longitude}`;
   accuracyDisplay.innerHTML = `Accuracy: within ${crd.accuracy} meters`;
@@ -22,7 +23,7 @@ function success(pos) {
   fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${crd.latitude}&lon=${crd.longitude}&units=imperial&appid=8656dce640c0b11d88c31da21ed3c1fd`)
   .then(function (response) {
 	response.json().then(function (data) {
-		jsonDisplay.innerHTML = `Temperature at your location in degrees Fahrenheit: ` + data.main.temp;
+		jsonDisplay.innerHTML = `Temperature at your location: ` + data.main.temp + ` °F`;
 	})
   })
   .catch(function (err) {
@@ -41,7 +42,7 @@ refreshButton.addEventListener(`click`, function (event) {
   latitudeDisplay.innerHTML = `<b>Latitude:</b>`;
   longitudeDisplay.innerHTML = `<b>Longitude:</b>`;
   accuracyDisplay.innerHTML = `Accuracy:`;
-  jsonDisplay.innerHTML = `Temperature at your location in degrees Fahrenheit:`;
+  jsonDisplay.innerHTML = `Temperature at your location: ` + data.main.temp + ` °F`;
   loadingStatus.innerHTML = `Loading ...`;
   navigator.geolocation.getCurrentPosition(success, error, options);
 });
