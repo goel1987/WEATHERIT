@@ -69,7 +69,7 @@ function loadForecast(crd) {
 			let minParagraph = `<p>Min Temp:<br>${data.daily[i].temp.min} °F</p>`;
 			let newForecastItem = dayParagraph + dateParagraph + maxParagraph + minParagraph;
 
-			weekForecastDisplay.innerHTML += `<li class="list-group-item">${newForecastItem}</li>`;
+			weekForecastDisplay.innerHTML += `<li class="list-group-item" style="width:12.5%">${newForecastItem}</li>`;
 		}
 		for (let i = 0; i < data.hourly.length; i++)
 		{
