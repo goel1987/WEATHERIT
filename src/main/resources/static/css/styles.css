@@ -1,13 +1,51 @@
 #forecast-screen {
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 10px;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 
 #title {
-  margin-top: 15px;
-  margin-left: 5px;
-  margin-right: 5px;
-  margin-bottom: 15px;
+	margin-top: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 15px;
+}
+
+.pagination_section {
+	position: absolute;
+	top: 500px;
+	right: 230px;
+}
+
+.pagination_section a {
+	color: black;
+	padding: 10px 18px;
+	text-decoration: none;
+}
+
+.pagination_section a:hover:not(.active) {
+	background-color: #031F3B;
+	color: white;
+}
+
+a:nth-child(5) {
+	background-color: green;
+	color: white;
+}
+
+a:nth-child(1) {
+	font-weight: bold;
+}
+
+a:nth-child(7) {
+	font-weight: bold;
+}
+
+.content {
+	margin: 50px;
+	padding: 15px;
+	width: 800px;
+	height: 200px;
+	border: 2px solid black;
 }
