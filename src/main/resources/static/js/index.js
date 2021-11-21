@@ -4,6 +4,10 @@ const statusDisplay = document.getElementById(`status`);
 const weekForecastDisplay = document.getElementById(`week-forecast`);
 const hourForecastDisplay = document.getElementById(`hour-forecast`);
 const locationDisplay = document.getElementById(`location`);
+const locationInputLabel = document.getElementById(`location-input-label`);
+const weekHeading = document.getElementById(`week-heading`);
+const hourHeading = document.getElementById(`hour-heading`);
+const searchDropdown = document.getElementById(`types`);
 
 const key = `8656dce640c0b11d88c31da21ed3c1fd`;
 const apiWeatherLocation = `https://api.openweathermap.org/data/2.5/weather?`;
@@ -53,6 +57,8 @@ function loadForecast(crd) {
   .then(function (response) {
 	response.json().then(function (data) {
 		weekForecastDisplay.innerHTML = ``;
+		weekHeading.innerText = `This Week`;
+		hourHeading.innerText = `Currently`;
 		for (let i = 0; i < data.daily.length; i++)
 		{
             let milliseconds = data.daily[i].dt * 1000;
@@ -65,8 +71,8 @@ function loadForecast(crd) {
 
 			let dayParagraph = `<p>${DayOfWeek}</p>`
 			let dateParagraph = `<p>${humanDateFormat}</p>`;
-			let maxParagraph = `<p>Max Temp:<br>${data.daily[i].temp.max} °F</p>`;
-			let minParagraph = `<p>Min Temp:<br>${data.daily[i].temp.min} °F</p>`;
+			let maxParagraph = `<p>High:<br>${data.daily[i].temp.max} °F</p>`;
+			let minParagraph = `<p>Low:<br>${data.daily[i].temp.min} °F</p>`;
 			let newForecastItem = dayParagraph + dateParagraph + maxParagraph + minParagraph;
 
 			weekForecastDisplay.innerHTML += `<li class="list-group-item" style="width:12.5%">${newForecastItem}</li>`;
@@ -92,5 +98,14 @@ function loadForecast(crd) {
 searchButton.addEventListener(`click`, function (event) {
   event.preventDefault();
   statusDisplay.innerHTML = `Loading ...`;
+  weekHeading.innerText = ``;
+  hourHeading.innerText = ``;
+  weekForecastDisplay.innerHTML = ``;
+  hourForecastDisplay.innerHTML = ``;
+locationDisplay.innerHTML = ``;
   navigator.geolocation.getCurrentPosition(success, error, options);
 });
+
+searchDropdown.onchange = function() {
+   locationInputLabel.innerHTML = searchDropdown.value;
+ }
