@@ -37,16 +37,17 @@ searchButton.addEventListener(`click`, function (event) {
   	}
   	else if (searchDropdown.value == `ZIP Code`)
   	{
-	
+		loadCoordsFromZip(locationInput.value);
   	}
   	else if (searchDropdown.value == `City Name`)
   	{
-	
+		loadCoordsFromCity(locationInput.value);
   	}
 });
 
 searchDropdown.onchange = function() {
   	locationInputLabel.innerHTML = searchDropdown.value;
+    locationInput.value = ``;
   	locationInput.disabled = false;
   	if (searchDropdown.value == `Current Location`)
   	{
@@ -61,10 +62,9 @@ let options = {
 };
 
 function success(pos) {
-  	statusDisplay.innerHTML = `Success!`;
   	let crd = pos.coords;
-  	loadForecast(crd);
-  	loadLocation(crd);
+  	loadForecast(crd.latitude, crd.longitude);
+  	loadLocation(crd.latitude, crd.longitude);
 }
 
 function error(err) {
@@ -72,8 +72,50 @@ function error(err) {
   	statusDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
 }
 
-function loadLocation(crd) {
-	fetch(apiWeatherLocation + `lat=${crd.latitude}&lon=${crd.longitude}&units=imperial&appid=${key}`)
+function loadCoordsFromZip(zipCode) {
+	fetch(apiWeatherLocation + `zip=${zipCode}&appid=${key}`)
+  	.then(function (response) {
+		response.json().then(function (data) {
+			if (typeof data.coord !== `undefined`)
+			{
+				loadForecast(data.coord.lat, data.coord.lon);
+  				loadLocation(data.coord.lat, data.coord.lon);
+			}
+			else
+			{
+				statusDisplay.innerHTML = `ERROR: Unknown Location`;
+			}
+		})
+  	})
+  	.catch(function (err) {
+		console.log(err);
+    	locationDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
+  	});
+}
+
+function loadCoordsFromCity(cityName) {
+	fetch(apiWeatherLocation + `q=${cityName}&appid=${key}`)
+  	.then(function (response) {
+		response.json().then(function (data) {
+			if (typeof data.coord !== `undefined`)
+			{
+				loadForecast(data.coord.lat, data.coord.lon);
+  				locationDisplay.innerHTML = cityName;
+			}
+			else
+			{
+				statusDisplay.innerHTML = `ERROR: Unknown Location`;
+			}
+		})
+  	})
+  	.catch(function (err) {
+		console.log(err);
+    	locationDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
+  	});
+}
+
+function loadLocation(latitude, longitude) {
+	fetch(apiWeatherLocation + `lat=${latitude}&lon=${longitude}&units=imperial&appid=${key}`)
   	.then(function (response) {
 		response.json().then(function (data) {
 			locationDisplay.innerHTML = data.name;
@@ -85,10 +127,11 @@ function loadLocation(crd) {
   	});
 }
 
-function loadForecast(crd) {
-	fetch(apiOneCallForecast + `lat=${crd.latitude}&lon=${crd.longitude}&units=imperial&appid=${key}`)
+function loadForecast(latitude, longitude) {
+	fetch(apiOneCallForecast + `lat=${latitude}&lon=${longitude}&units=imperial&appid=${key}`)
   	.then(function (response) {
 		response.json().then(function (data) {
+			statusDisplay.innerHTML = `Success!`;
 			weekForecastDisplay.innerHTML = ``;
 			weekHeading.innerText = `This Week`;
 			hourHeading.innerText = `Currently`;
