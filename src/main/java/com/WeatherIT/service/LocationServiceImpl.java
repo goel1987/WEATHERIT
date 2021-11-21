@@ -1,5 +1,7 @@
 package com.WeatherIT.service;
 import com.WeatherIT.*;
+import com.WeatherIT.dao.locationRepository;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
