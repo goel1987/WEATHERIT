@@ -5,6 +5,7 @@ const weekForecastDisplay = document.getElementById(`week-forecast`);
 const hourForecastDisplay = document.getElementById(`hour-forecast`);
 const locationDisplay = document.getElementById(`location`);
 const locationInputLabel = document.getElementById(`location-input-label`);
+const locationInput = document.getElementById(`location-input`);
 const weekHeading = document.getElementById(`week-heading`);
 const hourHeading = document.getElementById(`hour-heading`);
 const searchDropdown = document.getElementById(`types`);
@@ -21,91 +22,108 @@ weekday[4] = "Thursday";
 weekday[5] = "Friday";
 weekday[6] = "Saturday";
 
+searchButton.addEventListener(`click`, function (event) {
+	event.preventDefault();
+	statusDisplay.innerHTML = `Loading ...`;
+	weekHeading.innerText = ``;
+  	hourHeading.innerText = ``;
+  	weekForecastDisplay.innerHTML = ``;
+  	hourForecastDisplay.innerHTML = ``;
+  	locationDisplay.innerHTML = ``;
+
+  	if (searchDropdown.value == `Current Location`)
+  	{
+		navigator.geolocation.getCurrentPosition(success, error, options);
+  	}
+  	else if (searchDropdown.value == `ZIP Code`)
+  	{
+	
+  	}
+  	else if (searchDropdown.value == `City Name`)
+  	{
+	
+  	}
+});
+
+searchDropdown.onchange = function() {
+  	locationInputLabel.innerHTML = searchDropdown.value;
+  	locationInput.disabled = false;
+  	if (searchDropdown.value == `Current Location`)
+  	{
+    	locationInput.disabled = true;
+  	}
+}
+
 let options = {
-  enableHighAccuracy: true,
-  timeout: 10000,
-  maximumAge: 0
+  	enableHighAccuracy: true,
+  	timeout: 10000,
+  	maximumAge: 0
 };
 
 function success(pos) {
-  statusDisplay.innerHTML = `Success!`;
-  let crd = pos.coords;
-  loadForecast(crd);
-  loadLocation(crd);
+  	statusDisplay.innerHTML = `Success!`;
+  	let crd = pos.coords;
+  	loadForecast(crd);
+  	loadLocation(crd);
 }
 
 function error(err) {
-	console.log(err);
-  statusDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
+  	console.log(err);
+  	statusDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
 }
 
 function loadLocation(crd) {
 	fetch(apiWeatherLocation + `lat=${crd.latitude}&lon=${crd.longitude}&units=imperial&appid=${key}`)
-  .then(function (response) {
-	response.json().then(function (data) {
-		locationDisplay.innerHTML = data.name;
-	})
-  })
-  .catch(function (err) {
-	console.log(err);
-    locationDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
-  });
+  	.then(function (response) {
+		response.json().then(function (data) {
+			locationDisplay.innerHTML = data.name;
+		})
+  	})
+  	.catch(function (err) {
+		console.log(err);
+    	locationDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
+  	});
 }
 
 function loadForecast(crd) {
 	fetch(apiOneCallForecast + `lat=${crd.latitude}&lon=${crd.longitude}&units=imperial&appid=${key}`)
-  .then(function (response) {
-	response.json().then(function (data) {
-		weekForecastDisplay.innerHTML = ``;
-		weekHeading.innerText = `This Week`;
-		hourHeading.innerText = `Currently`;
-		for (let i = 0; i < data.daily.length; i++)
-		{
-            let milliseconds = data.daily[i].dt * 1000;
-            let dateObject = new Date(milliseconds);
-			let month = dateObject.getMonth() + 1;
-			let day = dateObject.getDate();
-			let year = dateObject.getFullYear();
-			let DayOfWeek = weekday[dateObject.getDay()];
-            let humanDateFormat = month + '/' + day + '/' + year;
+  	.then(function (response) {
+		response.json().then(function (data) {
+			weekForecastDisplay.innerHTML = ``;
+			weekHeading.innerText = `This Week`;
+			hourHeading.innerText = `Currently`;
+			for (let i = 0; i < data.daily.length; i++)
+			{
+            	let milliseconds = data.daily[i].dt * 1000;
+            	let dateObject = new Date(milliseconds);
+				let month = dateObject.getMonth() + 1;
+				let day = dateObject.getDate();
+				let year = dateObject.getFullYear();
+				let DayOfWeek = weekday[dateObject.getDay()];
+            	let humanDateFormat = month + '/' + day + '/' + year;
 
-			let dayParagraph = `<p>${DayOfWeek}</p>`
-			let dateParagraph = `<p>${humanDateFormat}</p>`;
-			let maxParagraph = `<p>High:<br>${data.daily[i].temp.max} °F</p>`;
-			let minParagraph = `<p>Low:<br>${data.daily[i].temp.min} °F</p>`;
-			let newForecastItem = dayParagraph + dateParagraph + maxParagraph + minParagraph;
+				let dayParagraph = `<p>${DayOfWeek}</p>`
+				let dateParagraph = `<p>${humanDateFormat}</p>`;
+				let maxParagraph = `<p>High:<br>${data.daily[i].temp.max} °F</p>`;
+				let minParagraph = `<p>Low:<br>${data.daily[i].temp.min} °F</p>`;
+				let newForecastItem = dayParagraph + dateParagraph + maxParagraph + minParagraph;
 
-			weekForecastDisplay.innerHTML += `<li class="list-group-item" style="width:12.5%">${newForecastItem}</li>`;
-		}
-		for (let i = 0; i < data.hourly.length; i++)
-		{
-			let milliseconds = data.hourly[i].dt * 1000;
-            let dateObject = new Date(milliseconds);
-			let hour = dateObject.getHours();
-			let suffix = hour >= 12 ? "PM":"AM"
-			hour = ((hour + 11) % 12 + 1) + suffix;
+				weekForecastDisplay.innerHTML += `<li class="list-group-item" style="width:12.5%">${newForecastItem}</li>`;
+			}
+			for (let i = 0; i < data.hourly.length; i++)
+			{
+				let milliseconds = data.hourly[i].dt * 1000;
+            	let dateObject = new Date(milliseconds);
+				let hour = dateObject.getHours();
+				let suffix = hour >= 12 ? "PM":"AM"
+				hour = ((hour + 11) % 12 + 1) + suffix;
 
-			hourForecastDisplay.innerHTML += `<li class="list-group-item">${hour} - - Temperature: ${data.hourly[i].temp} °F - - Feels Like: ${data.hourly[i].feels_like} °F</li>`;
-		}
-	})
-  })
-  .catch(function (err) {
-	console.log(err);
-    weekForecastDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
-  });
+				hourForecastDisplay.innerHTML += `<li class="list-group-item">${hour} - - Temperature: ${data.hourly[i].temp} °F - - Feels Like: ${data.hourly[i].feels_like} °F</li>`;
+			}
+		})
+  	})
+  	.catch(function (err) {
+		console.log(err);
+    	weekForecastDisplay.innerHTML = `ERROR(${err.code}): ${err.message}`;
+  	});
 }
-
-searchButton.addEventListener(`click`, function (event) {
-  event.preventDefault();
-  statusDisplay.innerHTML = `Loading ...`;
-  weekHeading.innerText = ``;
-  hourHeading.innerText = ``;
-  weekForecastDisplay.innerHTML = ``;
-  hourForecastDisplay.innerHTML = ``;
-locationDisplay.innerHTML = ``;
-  navigator.geolocation.getCurrentPosition(success, error, options);
-});
-
-searchDropdown.onchange = function() {
-   locationInputLabel.innerHTML = searchDropdown.value;
- }
