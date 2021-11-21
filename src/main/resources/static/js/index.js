@@ -13,14 +13,8 @@ const searchDropdown = document.getElementById(`types`);
 const key = `8656dce640c0b11d88c31da21ed3c1fd`;
 const apiWeatherLocation = `https://api.openweathermap.org/data/2.5/weather?`;
 const apiOneCallForecast = `https://api.openweathermap.org/data/2.5/onecall?`;
-const weekday = new Array(7);
-weekday[0] = "Sunday";
-weekday[1] = "Monday";
-weekday[2] = "Tuesday";
-weekday[3] = "Wednesday";
-weekday[4] = "Thursday";
-weekday[5] = "Friday";
-weekday[6] = "Saturday";
+const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 
 searchButton.addEventListener(`click`, function (event) {
 	event.preventDefault();
