@@ -135,7 +135,7 @@ function loadForecast(latitude, longitude) {
 			weekForecastDisplay.innerHTML = ``;
 			weekHeading.innerText = `This Week`;
 			hourHeading.innerText = `Currently`;
-			for (let i = 0; i < data.daily.length; i++)
+			for (let i = 0; i < (data.daily.length-1); i++)
 			{
             	let milliseconds = data.daily[i].dt * 1000;
             	let dateObject = new Date(milliseconds);
@@ -151,7 +151,7 @@ function loadForecast(latitude, longitude) {
 				let minParagraph = `<p>Low:<br>${data.daily[i].temp.min} °F</p>`;
 				let newForecastItem = dayParagraph + dateParagraph + maxParagraph + minParagraph;
 
-				weekForecastDisplay.innerHTML += `<li class="list-group-item" style="width:12.5%">${newForecastItem}</li>`;
+				weekForecastDisplay.innerHTML += `<li class="list-group-item text-center">${newForecastItem}</li>`;
 			}
 			for (let i = 0; i < data.hourly.length; i++)
 			{
