@@ -23,9 +23,9 @@ public class WeatherITApplicationController {
 		return "index";
 	}
 	
-	@RequestMapping("/home")
-		public String Home() {
-		 return "home";
-	 }
+//	@RequestMapping("/home")
+//		public String Home() {
+//		 return "home";
+//	 }
 	 
 }
