@@ -3,6 +3,7 @@ import com.WeatherIT.*;
 import com.WeatherIT.dao.locationRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,16 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	public Location findById(int theId) {
 		// TODO Auto-generated method stub
-		return locationRepository.findById(theId);;
+		Optional<Location>locationid = locationRepository.findById(theId);
+		Location theLocation = null;
+		if(locationid.isPresent()) {
+			theLocation = locationid.get();
+		}
+		else {
+			//locationid not found.
+			throw new RuntimeException("The FacultyId you've entered is invalid - "+ theId);
+		}
+		return theLocation;
 	}
 
 	@Override
@@ -48,7 +58,7 @@ public class LocationServiceImpl implements LocationService {
 
 
 	@Override
-	public void deleteById(Location theLocation) {
+	public void deleteById(int theId) {
 		locationRepository.deleteById(theId);
 		
 	}

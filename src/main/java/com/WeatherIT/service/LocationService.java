@@ -14,5 +14,5 @@ public interface LocationService {
 	
 	public void save(Location theLocation);
 	
-	public void deleteById(Location theLocation);
+	public void deleteById(int theId);
 }
