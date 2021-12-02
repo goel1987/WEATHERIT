@@ -2,27 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WeatherIT</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WeatherIT</title>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body>
-    <div class="container">
-        <h1 id="title">WeatherIT</h1>
-        <div id="home-screen">
-            <form id="location-form">
-                <div>
-                    <p id="json">Temperature at your location:</p>
-                </div>
-                <p id="loading">Loading ...</p>
-                <button id="refresh-button" class="btn btn-primary">Refresh</button>
-            </form>
-        </div>
-    </div>
-    <script src="js/index.js"></script>
+	<h1 id="title">Login</h1>
+	<form action="#" th:action="@{/forecast}">
+	<input type="text" placeholder="User Name">
+	<input type="text" placeholder="Password">
+	<button type="submit">Login</button>
+	
+	</form>
 </body>
-
 </html>

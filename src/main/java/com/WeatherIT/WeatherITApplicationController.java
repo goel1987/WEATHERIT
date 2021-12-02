@@ -3,6 +3,7 @@ package com.WeatherIT;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.WeatherIT.entity.Location;
@@ -23,9 +24,8 @@ public class WeatherITApplicationController {
 		return "index";
 	}
 	
-//	@RequestMapping("/home")
-//		public String Home() {
-//		 return "home";
-//	 }
-	 
+	@GetMapping("/forecast")
+	public String move() {
+		return "forecast";
+	}
 }
