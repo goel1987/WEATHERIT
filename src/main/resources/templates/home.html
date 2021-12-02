@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-<h1 id="title">Forecast</h1>
+<h1 id="title">Table</h1>
 	<form action="#" th:action="@{/forecast}">
-	<button type="submit">Forecast</button>
+	<button type="submit">To Forecast</button>
 	<div class="container">
 		
 		<table>
@@ -23,9 +23,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="theLocation:${location}">
+				<tr th:each="theLocation:${locations}">
 					<td th:text="${theLocation.id}"></td>
 					<td th:text="${theLocation.locationName}"></td>
+				</tr>
+				<tr>
+				<td>1</td>
+				<td>Cincinnati</td>
+				</tr>
+				<tr>
+				<td>2</td>
+				<td>Columbus</td>
 				</tr>
 			</tbody>
 
