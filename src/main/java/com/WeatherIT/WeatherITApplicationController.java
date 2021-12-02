@@ -10,7 +10,7 @@ import com.WeatherIT.entity.Location;
 import com.WeatherIT.service.LocationService;
 
 @Controller
-@RequestMapping("/home")
+
 public class WeatherITApplicationController {
 	
 	public LocationService locationService;
