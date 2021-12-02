@@ -12,8 +12,13 @@ import com.WeatherIT.entity.Location;
 @Service
 public class LocationServiceImpl implements LocationService {
 
+	private locationRepository locationRepository;
+
+
+
+
 	@Autowired
-		public LocationServiceImpl(LocationRepository theLocationRepository) {
+		public LocationServiceImpl(locationRepository theLocationRepository) {
 			locationRepository=theLocationRepository;
 		}
 
@@ -27,7 +32,7 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
-	public Location findbyId(int theId) {
+	public Location findById(int theId) {
 		// TODO Auto-generated method stub
 		return locationRepository.findById(theId);;
 	}
@@ -38,11 +43,14 @@ public class LocationServiceImpl implements LocationService {
 		locationRepository.save(theLocation);;
 	}
 
-	@Override
-	public void deletebyId(int theId) {
-		// TODO Auto-generated method stub
-		 locationRepository.deleteById(theId);;
+	
 
+
+
+	@Override
+	public void deleteById(Location theLocation) {
+		locationRepository.deleteById(theId);
+		
 	}
 
 }

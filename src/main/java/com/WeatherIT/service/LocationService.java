@@ -10,9 +10,9 @@ public interface LocationService {
 
 	public List<Location> findall();
 	
-	public Location findbyId(int theId);
+	public Location findById(int theId);
 	
 	public void save(Location theLocation);
 	
-	public void deletebyId(Location theLocation);
+	public void deleteById(Location theLocation);
 }

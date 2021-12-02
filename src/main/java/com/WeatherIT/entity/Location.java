@@ -42,6 +42,6 @@ public class Location {
 	
 	@Override
 	public String toString() {
-		return "Location [id="id ","locationName=" locationName"];
+		return "Faculty [id=" + id + ", locationName=" + locationName + "]";
 	}
 }
